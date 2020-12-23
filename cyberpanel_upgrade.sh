@@ -248,8 +248,7 @@ EOF
     rm -rf /etc/my.cnf.d/
     mv /etc/cnfbackup/my.cnf.d /etc/
 
-    systemctl enable mysql
-    systemctl start mysql
+    /usr/sbin/service mysql start
 
     mysql_upgrade -uroot -p$MYSQLPassword
 
@@ -503,7 +502,7 @@ fi
 ##
 chown -R cyberpanel:cyberpanel /usr/local/CyberCP/lib
 chown -R cyberpanel:cyberpanel /usr/local/CyberCP/lib64
-systemctl restart lscpd
+/usr/sbin/service lscpd restart
 
 rm -f requirements.txt
 rm -f requirments.txt
