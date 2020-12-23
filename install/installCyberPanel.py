@@ -289,9 +289,9 @@ class InstallCyberPanel:
         if self.remotemysql == 'OFF':
             ############## Start mariadb ######################
             if self.distro == cent8 or self.distro == ubuntu:
-                command = 'systemctl start mariadb'
+                command = '/usr/sbin/service mariadb start '
             else:
-                command = "systemctl start mysql"
+                command = "/usr/sbin/service mysql start"
             install.preFlightsChecks.call(command, self.distro, command, command, 1, 1, os.EX_OSERR)
 
             ############## Enable mariadb at system startup ######################
@@ -302,9 +302,9 @@ class InstallCyberPanel:
                 os.remove('/etc/systemd/system/mariadb.service')
 
             if self.distro == ubuntu:
-                command = "systemctl enable mariadb"
+                command = "/usr/sbin/service mariadb start"
             else:
-                command = "systemctl enable mariadb"
+                command = "/usr/sbin/service mariadb start"
 
             install.preFlightsChecks.call(command, self.distro, command, command, 1, 1, os.EX_OSERR)
 
@@ -333,7 +333,7 @@ class InstallCyberPanel:
         except IOError as err:
             self.stdOut("[ERROR] Error in setting: " + fileName + ": " + str(err), 1, 1, os.EX_OSERR)
 
-        os.system('systemctl restart mysql')
+        os.system('/usr/sbin/service mysql start')
 
         self.stdOut("MariaDB is now setup so it can support Cyberpanel's needs")
 
@@ -365,7 +365,7 @@ class InstallCyberPanel:
 
         ####### Install pureftpd to system startup
 
-        command = "systemctl enable " + install.preFlightsChecks.pureFTPDServiceName(self.distro)
+        command = "/usr/sbin/service start " + install.preFlightsChecks.pureFTPDServiceName(self.distro)
         install.preFlightsChecks.call(command, self.distro, command, command, 1, 1, os.EX_OSERR)
 
         ###### FTP Groups and user settings settings
@@ -379,9 +379,9 @@ class InstallCyberPanel:
     def startPureFTPD(self):
         ############## Start pureftpd ######################
         if self.distro == ubuntu:
-            command = 'systemctl start pure-ftpd-mysql'
+            command = '/usr/sbin/service pure-ftpd-mysql start'
         else:
-            command = 'systemctl start pure-ftpd'
+            command = '/usr/sbin/service pure-ftpd start'
         install.preFlightsChecks.call(command, self.distro, command, command, 1, 1, os.EX_OSERR)
 
     def installPureFTPDConfigurations(self, mysql):
@@ -481,7 +481,7 @@ class InstallCyberPanel:
                 command = 'ln -s /etc/pure-ftpd/conf/UnixAuthentication /etc/pure-ftpd/auth/65unix'
                 install.preFlightsChecks.call(command, self.distro, command, command, 1, 1, os.EX_OSERR)
 
-                command = 'systemctl restart pure-ftpd-mysql.service'
+                command = '/usr/sbin/service pure-ftpd-mysql.service restart'
                 install.preFlightsChecks.call(command, self.distro, command, command, 1, 1, os.EX_OSERR)
 
             InstallCyberPanel.stdOut("PureFTPD configured!", 1)
@@ -494,9 +494,9 @@ class InstallCyberPanel:
         try:
 
             if self.distro == ubuntu or self.distro == cent8:
-                command = 'systemctl stop systemd-resolved'
+                command = '/usr/sbin/service systemd-resolved stop'
                 install.preFlightsChecks.call(command, self.distro, command, command, 1, 0, os.EX_OSERR)
-                command = 'systemctl disable systemd-resolved.service'
+                command = '/usr/sbin/service systemd-resolved stop'
                 install.preFlightsChecks.call(command, self.distro, command, command, 1, 0, os.EX_OSERR)
 
 
@@ -601,10 +601,10 @@ class InstallCyberPanel:
 
         ############## Start PowerDNS ######################
 
-        command = 'systemctl enable pdns'
+        command = '/usr/sbin/service pdns start'
         install.preFlightsChecks.call(command, self.distro, command, command, 1, 0, os.EX_OSERR)
 
-        command = 'systemctl start pdns'
+        command = '/usr/sbin/service pdns start'
         install.preFlightsChecks.call(command, self.distro, command, command, 1, 0, os.EX_OSERR)
 
 
