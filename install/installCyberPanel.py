@@ -315,6 +315,7 @@ class InstallCyberPanel:
         cursor = conn.cursor()
         cursor.execute('set global innodb_file_per_table = on;')
         try:
+            cursor.execute("SET GLOBAL innodb_default_row_format = 'DYNAMIC';")
             cursor.execute('set global innodb_file_format = Barracuda;')
             cursor.execute('set global innodb_large_prefix = on;')
         except BaseException as msg:
