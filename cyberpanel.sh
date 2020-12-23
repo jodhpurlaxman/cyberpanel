@@ -520,14 +520,13 @@ memcached_installation() {
       ./configure CFLAGS=" -O3" CXXFLAGS=" -O3"
       make
       make install
-      systemctl enable lsmcd
-      systemctl start lsmcd
+      /usr/sbin/service lscmd start
       cd $DIR
     else
       yum install -y memcached
       sed -i 's|OPTIONS=""|OPTIONS="-l 127.0.0.1 -U 0"|g' /etc/sysconfig/memcached
-      systemctl enable memcached
-      systemctl start memcached
+      
+      /usr/sbin/service memcached start 
     fi
   fi
   if [[ $SERVER_OS == "Ubuntu" ]]; then
@@ -548,12 +547,10 @@ memcached_installation() {
       make
       make install
       cd $DIR
-      systemctl enable lsmcd
-      systemctl start lsmcd
+      /usr/sbin/service lscmd start 
     else
       DEBIAN_FRONTEND=noninteractive apt install -y memcached
-      systemctl enable memcached
-      systemctl start memcached
+      /usr/sbin/service memcached start 
     fi
   fi
 
@@ -588,15 +585,13 @@ redis_installation() {
   fi
 
   if [[ $SERVER_OS == "CentOS" ]]; then
-    systemctl enable redis
-    systemctl start redis
+    /usr/sbin/service redis start 
   fi
 
   if [[ $SERVER_OS == "Ubuntu" ]]; then
-    systemctl stop redis-server
+    /usr/sbin/service redis-server stop
     rm -f /var/run/redis/redis-server.pid
-    systemctl enable redis-server
-    systemctl start redis-server
+    /usr/sbin/service redis start 
   fi
 
   if ps -aux | grep "redis" | grep -v grep; then
@@ -1293,7 +1288,7 @@ EOF
 
     chown -R cyberpanel:cyberpanel /usr/local/CyberCP/lib
     chown -R cyberpanel:cyberpanel /usr/local/CyberCP/lib64
-    systemctl restart lscpd
+    /usr/sbin/service lscpd restart 
 
     for version in $(ls /usr/local/lsws | grep lsphp); do
       php_ini=$(find /usr/local/lsws/$version/ -name php.ini)
@@ -1323,7 +1318,7 @@ EOF
         if [[ ! -d /usr/local/lsws/cyberpanel-tmp ]]; then
           if [[ -d /etc/pure-ftpd/conf ]]; then
             echo "yes" >/etc/pure-ftpd/conf/ChrootEveryone
-            systemctl restart pure-ftpd-mysql
+            /usr/sbin/service pure-ftpd-mysql restart
           fi
           DEBIAN_FRONTEND=noninteractive apt install libmagickwand-dev pkg-config build-essential -y
           mkdir /usr/local/lsws/cyberpanel-tmp
@@ -1354,8 +1349,8 @@ EOF
 
     regenerate_cert
 
-    systemctl restart lscpd
-    systemctl restart lsws
+    /usr/sbin/service lscpd restart
+    /usr/sbin/service  lsws restart
     echo '/usr/local/CyberPanel/bin/python /usr/local/CyberCP/plogical/adminPass.py --password $@' >/usr/bin/adminPass
     echo "systemctl restart lscpd" >>/usr/bin/adminPass
     chmod 700 /usr/bin/adminPass
@@ -1367,8 +1362,8 @@ EOF
       #	tar xzvf openlitespeed-$OLS_LATEST.tgz
       #	cd openlitespeed
       #	./install.sh
-      systemctl stop lsws
-      systemctl start lsws
+      /usr/sbin/service lsws stop
+      /usr/sbin/service lsws start
     #	rm -f openlitespeed-$OLS_LATEST.tgz
     #	rm -rf openlitespeed
     #	cd ..
@@ -1384,8 +1379,8 @@ EOF
     if [[ $? == "0" ]]; then
       echo "LSWS service is running..."
     else
-      systemctl stop lsws
-      systemctl start lsws
+      /usr/sbin/service lsws stop
+      /usr/sbin/service lsws start
     fi
 
     webadmin_passwd
