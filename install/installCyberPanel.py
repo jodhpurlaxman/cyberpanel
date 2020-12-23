@@ -302,9 +302,9 @@ class InstallCyberPanel:
                 os.remove('/etc/systemd/system/mariadb.service')
 
             if self.distro == ubuntu:
-                command = "/usr/sbin/service mariadb start"
+                command = "/usr/sbin/service mysql start"
             else:
-                command = "/usr/sbin/service mariadb start"
+                command = "/usr/sbin/service mysql start"
 
             install.preFlightsChecks.call(command, self.distro, command, command, 1, 1, os.EX_OSERR)
 
