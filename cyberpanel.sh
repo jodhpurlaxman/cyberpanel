@@ -37,7 +37,7 @@ CENTOS_8="False"
 UBUNTU_20="False"
 WATCHDOG="OFF"
 VIRT_TYPE=""
-MASTER_GIT_URL="github.com/usmannasir/cyberpanel"
+MASTER_GIT_URL="github.com/jodhpurlaxman/cyberpanel"
 
 set_git_repos_and_branch() {
   local GIT_DIR
