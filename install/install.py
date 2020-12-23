@@ -371,7 +371,7 @@ class preFlightsChecks:
 
         os.chdir('/usr/local')
 
-        command = "git clone https://github.com/usmannasir/cyberpanel"
+        command = "git clone https://github.com/jodhpurlaxman/cyberpanel"
         preFlightsChecks.call(command, self.distro, command, command, 1, 1, os.EX_OSERR)
 
         shutil.move('cyberpanel', 'CyberCP')
@@ -1168,12 +1168,12 @@ $cfg['Servers'][$i]['LogoutURL'] = 'phpmyadminsignin.php?logout';
 
             ################################### Restart postix
 
-            command = 'systemctl enable postfix.service'
+            command = '/usr/sbin/service postfix start'
             preFlightsChecks.call(command, self.distro, command, command, 1, 0, os.EX_OSERR)
 
             ##
 
-            command = 'systemctl start postfix.service'
+            command = '/usr/sbin/service postfix start'
             preFlightsChecks.call(command, self.distro, command, command, 1, 0, os.EX_OSERR)
 
             ######################################## Permissions
@@ -1193,12 +1193,12 @@ $cfg['Servers'][$i]['LogoutURL'] = 'phpmyadminsignin.php?logout';
 
             ##
 
-            command = 'systemctl start dovecot.service'
+            command = '/usr/sbin/service dovecot start'
             preFlightsChecks.call(command, self.distro, command, command, 1, 0, os.EX_OSERR)
 
             ##
 
-            command = 'systemctl restart  postfix.service'
+            command = '/usr/sbin/service postfix restart'
             preFlightsChecks.call(command, self.distro, command, command, 1, 0, os.EX_OSERR)
 
             ## chaging permissions for main.cf
@@ -1234,7 +1234,7 @@ $cfg['Servers'][$i]['LogoutURL'] = 'phpmyadminsignin.php?logout';
                             writeToFile.writelines(items)
                     writeToFile.close()
 
-                command = "systemctl restart dovecot"
+                command = "/usr/sbin/service dovecot restart"
                 preFlightsChecks.call(command, self.distro, command, command, 1, 0, os.EX_OSERR)
 
             logging.InstallLog.writeToFile("Postfix and Dovecot configured")
@@ -1365,7 +1365,7 @@ imap_folder_list_limit = 0
             command = 'systemctl restart systemd-logind'
             preFlightsChecks.call(command, self.distro, command, command, 1, 0, os.EX_OSERR)
 
-            command = 'systemctl start firewalld'
+            command = '/usr/sbin/service firewalld start'
             preFlightsChecks.call(command, self.distro, command, command, 1, 0, os.EX_OSERR)
 
             ##########
@@ -1665,7 +1665,7 @@ imap_folder_list_limit = 0
 
             ##
 
-            command = 'systemctl start lscpd'
+            command = '/usr/sbin/service lscpd start'
             #preFlightsChecks.call(command, self.distro, command, command, 1, 0, os.EX_OSERR)
 
             preFlightsChecks.stdOut("LSCPD Daemon Set!")
@@ -1701,7 +1701,7 @@ imap_folder_list_limit = 0
             if self.distro == centos or self.distro == cent8:
                 command = 'systemctl start crond'
             else:
-                command = 'systemctl start cron'
+                command = '/usr/sbin/service cron start'
 
             preFlightsChecks.call(command, self.distro, command, command, 1, 0, os.EX_OSERR)
 
@@ -1739,7 +1739,7 @@ imap_folder_list_limit = 0
             if self.distro == centos or self.distro == cent8:
                 command = 'systemctl restart crond.service'
             else:
-                command = 'systemctl restart cron.service'
+                command = '/usr/sbin/service cron restart'
 
             preFlightsChecks.call(command, self.distro, command, command, 1, 0, os.EX_OSERR)
 
