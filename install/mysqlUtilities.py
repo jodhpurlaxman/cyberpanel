@@ -28,7 +28,8 @@ class mysqlUtilities:
                 remote = 0
 
             command = initCommand + createDB + '"'
-
+            innodb_default_row_format = 'mysql -u root -p' + password + ' -e "SET GLOBAL innodb_default_row_format = DYNAMIC;"'
+            
             if install.preFlightsChecks.debug:
                 print(command)
                 time.sleep(10)
